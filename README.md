@@ -4,4 +4,4 @@
  - https://github.com/dumblob/mysql2sqlite
  - chmod u+x mysql2sqlite.sh
  - mysqldump --skip-extended-insert --compact -u root wordpress > wordpress.sql
- - ./mysql2sqlite wordpress.sql | sqlite3 development.sqlite3
+ - ./mysql2sqlite.sh wordpress.sql | sqlite3 development.sqlite3

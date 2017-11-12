@@ -24,3 +24,4 @@
 
 /config/secrets.yml
 /db/*.sql
+*.DS_Store
