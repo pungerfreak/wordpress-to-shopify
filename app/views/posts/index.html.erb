@@ -1,0 +1,5 @@
+<% @posts.each do |post| %>
+  <h4><%= post.id %>: <%= post.post_title %></h4>
+  <%= post.post_content %>
+  <div style="width: 100%; height: 10px; margin: 20px 0; background-color: pink;">&nbsp;</div>
+<% end %>
