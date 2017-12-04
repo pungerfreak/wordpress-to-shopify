@@ -13,7 +13,7 @@ class Post < ApplicationRecord
   def mappings
     {
       title: :post_title,
-      body_html: :post_content,
+      body_html: [:post_content, -> (post, attribute) { PostConverterService.call(post.send(attribute)) }],
       summary_html: :post_excerpt,
       published_at: [:post_date, -> (post, attribute) { post.send(attribute).iso8601 }],
       tags: [:tags, -> (post, _attribute) { post.tags.map(&:name).join(', ') }],
