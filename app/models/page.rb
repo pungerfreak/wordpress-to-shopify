@@ -8,7 +8,7 @@ class Page < ApplicationRecord
   def mappings
     {
       author: :post_author,
-      body_html: :post_content,
+      body_html: [:post_content, -> (page, attribute) { ContentConverterService.call(page.send(attribute)) }],
       published_at: [:post_date, -> (page, attribute) { page.send(attribute).iso8601 }],
       title: :post_title
     }

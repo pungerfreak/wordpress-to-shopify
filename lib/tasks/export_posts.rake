@@ -1,5 +1,6 @@
 task export_posts: :environment do
   count = Post.count
+  errors = []
 
   Post.all.each_with_index do |post, i|
     s_post = post.map(ShopifyAPI::Article.new)
@@ -10,15 +11,18 @@ task export_posts: :environment do
       post.shopify_handle = s_post.handle
       post.save
     else
-      puts "Unable to save post ##{post.id}: #{s_post.errors.full_messages.join(', ')}"
+      errors << "Unable to save post ##{post.id}: #{s_post.errors.full_messages.join(', ')}"
     end
 
     progress(i, count)
   end
+
+  print "\n" + errors.join("\n")
 end
 
 task export_pages: :environment do
   count = Page.count
+  errors = []
 
   Page.all.each_with_index do |page, i|
     s_page = page.map(ShopifyAPI::Page.new)
@@ -29,25 +33,30 @@ task export_pages: :environment do
       page.shopify_handle = s_page.handle
       page.save
     else
-      print "\nUnable to save page ##{page.id}: #{s_page.errors.full_messages.join(', ')}\n"
+      errors << "\nUnable to save page ##{page.id}: #{s_page.errors.full_messages.join(', ')}\n"
     end
 
     progress(i, count)
   end
+
+  print "\n" + errors.join("\n")
 end
 
 task export_comments: :environment do
   count = Comment.count
+  errors = {}
 
   Comment.all.each_with_index do |comment, i|
     s_comment = comment.map(ShopifyAPI::Comment.new)
     s_comment.status = 'published'
     s_comment.save
 
-    puts "Unable to save comment ##{comment.id}: #{s_comment.errors.full_messages.join(', ')}" unless s_comment.valid?
+    errors << "Unable to save comment ##{comment.id}: #{s_comment.errors.full_messages.join(', ')}" unless s_comment.valid?
 
     progress(i, count)
   end
+
+  print "\n" + errors.join("\n")
 end
 
 

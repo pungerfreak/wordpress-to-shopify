@@ -9,11 +9,14 @@ class Post < ApplicationRecord
   has_one :image, foreign_key: :post_parent
   has_many :posts_tag
   has_many :tags, through: :posts_tag
+  has_many :posts_category
+  has_many :categories, through: :posts_category
 
   def mappings
     {
+      author: :post_author,
       title: :post_title,
-      body_html: [:post_content, -> (post, attribute) { PostConverterService.call(post.send(attribute)) }],
+      body_html: [:post_content, -> (post, attribute) { ContentConverterService.call(post.send(attribute)) }],
       summary_html: :post_excerpt,
       published_at: [:post_date, -> (post, attribute) { post.send(attribute).iso8601 }],
       tags: [:tags, -> (post, _attribute) { post.tags.map(&:name).join(', ') }],
