@@ -1,24 +1,27 @@
 class DownloadImagesService
   def self.call(content)
-    downloader = self.new(content)
+    new(content).download_all
+  end
 
-    downloader.download
+  def self.single(url)
+    new(nil).download(url)
   end
 
   def initialize(content)
     @content = content
   end
 
-  def download
-    urls = @content.scan(/(?<=src=")http:\/\/www\.fishingaddictsnorthwest\.com\/wp-content\/uploads\S*(?=")/)
+  def download(url)
+    response = Net::HTTP.get(URI(url))
+    path = File.join(Rails.root, 'public/downloads', url.split('/').last)
 
-    urls.each do |url|
-      response = Net::HTTP.get(URI(url))
-      path = File.join(Rails.root, 'public/downloads', url.split('/').last)
-
-      open(path, "wb") do |file|
-        file.write(response)
-      end
+    open(path, "wb") do |file|
+      file.write(response)
     end
+  end
+
+  def download_all
+    urls = @content.scan(/(?<=src=")http:\/\/www\.fishingaddictsnorthwest\.com\/wp-content\/uploads\S*(?=")/)
+    urls.each{|url| download(url) }
   end
 end
