@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20171112021151) do
+ActiveRecord::Schema.define(version: 20180126034028) do
 
   create_table "posts_tags", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=latin1" do |t|
     t.integer "post_id"
@@ -104,6 +104,7 @@ ActiveRecord::Schema.define(version: 20171112021151) do
     t.string "comment_type", limit: 20, default: "", null: false
     t.bigint "comment_parent", default: 0, null: false, unsigned: true
     t.bigint "user_id", default: 0, null: false, unsigned: true
+    t.string "shopify_comment_id"
     t.index ["comment_approved", "comment_date_gmt"], name: "comment_approved_date_gmt"
     t.index ["comment_author_email"], name: "comment_author_email", length: { comment_author_email: 10 }
     t.index ["comment_date_gmt"], name: "comment_date_gmt"
