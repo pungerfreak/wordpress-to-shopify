@@ -9,6 +9,7 @@ end
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
 gem 'rails', '~> 5.1.4'
 gem 'mysql2'
+gem 'nokogiri'
 gem 'puma', '~> 3.7'
 gem 'shopify_api'
 gem 'uglifier', '>= 1.3.0'

@@ -168,6 +168,7 @@ DEPENDENCIES
   html_validation
   listen (>= 3.0.5, < 3.2)
   mysql2
+  nokogiri
   puma (~> 3.7)
   rails (~> 5.1.4)
   rest-client
